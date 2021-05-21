@@ -207,32 +207,39 @@ namespace Fourier_Plotter
 
         private void start_Click(object sender, RoutedEventArgs e)
         {
-            if(isResetOrFirstTry)
+            if(Pairs.Count!=0)
             {
-                reset_Click(null, null);
-                drawCirclesAndRadii();
-            }
-            if (isPbPaused||isResetOrFirstTry)
-            {
-                dispatcherTimer = new System.Windows.Threading.DispatcherTimer(DispatcherPriority.Render); //(DispatcherPriority.Send);
-                dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
-                dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 10); //100); //50); //10); ///10 milisecs because 0.1*1000=100 and 1 seconds = 10000 miliseconds and so on
-                stopwatch = new Stopwatch();
                 if (isResetOrFirstTry)
                 {
-                    pbStatus.Maximum = 10000;
-                    pbStatus.Minimum = 0;
-                    pbStatus.Value = 0;
+                    reset_Click(null, null);
+                    drawCirclesAndRadii();
                 }
-                else
+                if (isPbPaused || isResetOrFirstTry)
                 {
-                    pbStatus.Value = pbLastValue;
+                    dispatcherTimer = new System.Windows.Threading.DispatcherTimer(DispatcherPriority.Render); //(DispatcherPriority.Send);
+                    dispatcherTimer.Tick += new EventHandler(dispatcherTimer_Tick);
+                    dispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 10); //100); //50); //10); ///10 milisecs because 0.1*1000=100 and 1 seconds = 10000 miliseconds and so on
+                    stopwatch = new Stopwatch();
+                    if (isResetOrFirstTry)
+                    {
+                        pbStatus.Maximum = 10000;
+                        pbStatus.Minimum = 0;
+                        pbStatus.Value = 0;
+                    }
+                    else
+                    {
+                        pbStatus.Value = pbLastValue;
+                    }
+                    isPbPaused = false;
+                    isResetOrFirstTry = false;
+                    stopwatch.Start();
+                    timeOfLastTick = fixedDeltaTime = stopwatch.ElapsedMilliseconds;
+                    dispatcherTimer.Start();
                 }
-                isPbPaused = false;
-                isResetOrFirstTry = false;
-                stopwatch.Start();
-                timeOfLastTick = fixedDeltaTime = stopwatch.ElapsedMilliseconds;
-                dispatcherTimer.Start();
+            }
+            else
+            {
+                reset_Click(null, null);
             }
         }
 
@@ -327,16 +334,23 @@ namespace Fourier_Plotter
 
         private void save_Click(object sender, RoutedEventArgs e)
         {
-            SaveFileDialog saveFileDialog = new SaveFileDialog();
-            saveFileDialog.DefaultExt = ".xml";
-            saveFileDialog.Filter = "XML|*.xml";
-            if(saveFileDialog.ShowDialog()==true)
+            if(Pairs.Count!=0)
             {
-                XmlSerializer pairList_Serializer = new XmlSerializer(typeof(List<pair>));
-                using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.DefaultExt = ".xml";
+                saveFileDialog.Filter = "XML|*.xml";
+                if (saveFileDialog.ShowDialog() == true)
                 {
-                    pairList_Serializer.Serialize(writer, Pairs);
+                    XmlSerializer pairList_Serializer = new XmlSerializer(typeof(List<pair>));
+                    using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName))
+                    {
+                        pairList_Serializer.Serialize(writer, Pairs);
+                    }
                 }
+            }
+            else
+            {
+                MessageBox.Show("Cannot save empty project.", "Project empty", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
         private void open_Click(object sender, RoutedEventArgs e)

@@ -42,7 +42,7 @@
 
 
             <GroupBox Header="Plotter" Grid.Row="0" Grid.Column="0">
-                <Image x:Name="_plotImage" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="1" Stretch="None" />
+                <Image x:Name="_plotImage" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="1" Stretch="None" Height="900"/>
             </GroupBox>
             <GroupBox Header="Circles" Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch">
                 <DataGrid Name="circlesDataGrid" ItemsSource="{Binding}" CurrentCellChanged="circlesDataGrid_CurrentCellChanged" CanUserAddRows="True" SourceUpdated="circlesDataGrid_SourceUpdated">
