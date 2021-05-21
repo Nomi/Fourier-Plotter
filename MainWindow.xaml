@@ -1,0 +1,65 @@
+﻿<Window x:Class="Fourier_Plotter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Fourier_Plotter"
+        mc:Ignorable="d"
+        Title="Fourier Plotter" Height="auto" Width="auto" WindowState="Maximized" 
+        ResizeMode="NoResize" WindowStyle="None"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+       <!-- <DockPanel Grid.Row="0">-->
+            <!-- from: https://stackoverflow.com/questions/9936796/create-a-menu-bar-in-wpf -->
+            <Menu>
+                <MenuItem Header="_File">
+                    <MenuItem Header="_New" Click="new_Click"/>
+                    <MenuItem Header="_Open" Click="open_Click"/>
+                    <MenuItem Header="_Save" Click="save_Click"/>
+                </MenuItem>
+                <MenuItem Header="_Exit" Click="exit_Click"/>
+            <MenuItem Header="_Options">
+                <MenuItem Name="drawCircles" Header="Draw _circles" IsCheckable="True" IsChecked="True"/>
+                <MenuItem Name="drawLines" Header="Draw _lines" IsCheckable="True" IsChecked="True"/>
+            </MenuItem>
+        </Menu>
+           <!-- <StackPanel></StackPanel>
+        </DockPanel>-->
+        <Grid Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8.5*"/>
+                <RowDefinition Height="1.5*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+
+
+
+            <GroupBox Header="Plotter" Grid.Row="0" Grid.Column="0">
+                <Image x:Name="_plotImage" HorizontalAlignment="Center" VerticalAlignment="Center" Opacity="1" Stretch="None" />
+            </GroupBox>
+            <GroupBox Header="Circles" Grid.Row="0" Grid.Column="1" VerticalAlignment="Stretch">
+                <DataGrid Name="circlesDataGrid" ItemsSource="{Binding}" CurrentCellChanged="circlesDataGrid_CurrentCellChanged" CanUserAddRows="True" SourceUpdated="circlesDataGrid_SourceUpdated">
+                    <!--<DataGrid.Columns>
+                        <DataGridTextColumn Binding = "{Binding A}" />
+                        <DataGridTextColumn Binding = "{Binding B}"/>
+                    </DataGrid.Columns>-->
+                </DataGrid>
+            </GroupBox>
+            <ProgressBar Height="20" Width="970" Grid.Row="1" Grid.Column="0" Name="pbStatus"/>
+            <GroupBox Header="Actions" Grid.Column="1" Grid.Row="1">
+                <StackPanel>
+                    <Button x:Name="start" Content="Start" Click="start_Click" />
+                    <Button x:Name="pause" Content="Pause" Click="pause_Click" />
+                    <Button x:Name="reset" Content="Reset" Click="reset_Click"/>
+                </StackPanel>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</Window>

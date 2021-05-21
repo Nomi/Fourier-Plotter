@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <!-- XML Schema Generated from XML Document on Tue May 18 2021 22:39:01 GMT+0200 (Central European Summer Time) -->
+  <!-- with XmlGrid.net Free Online Service http://xmlgrid.net -->
+  <xs:element name="ArrayOfCircle">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="circle" maxOccurs="unbounded" minOccurs="1">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="radius" type="xs:int" maxOccurs="1" minOccurs="1"></xs:element>
+              <xs:element name="frequency" type="xs:float" maxOccurs="1" minOccurs="1"></xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
